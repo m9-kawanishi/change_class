@@ -22,23 +22,24 @@ for file in os.listdir(directory):
 
     # ファイルオープン
     with open(fileName, encoding="cp932") as f:
-        data_lines = f.read().split( )
+        annotation = f.read().split( )
 
     # 数値に変換
-    data_lines = [float(num) for num in data_lines]
-    data_lines = np.array(data_lines).reshape(-1,5)
+    annotation = [float(num) for num in annotation]
+    annotation = np.array(annotation).reshape(-1,5)
 
     # 文字列置換
-    data_lines[:, 0] = np.where(data_lines[:, 0] == beforechgnum, afterchgnum, data_lines[:, 0])
+    annotation[:, 0] = np.where(annotation[:, 0] == beforechgnum, afterchgnum, annotation[:, 0])
 
-    np.savetxt(fileName, data_lines, fmt ='%.6f')
+    np.savetxt(fileName, annotation, fmt ='%.6f')
 
     with open(fileName, encoding="cp932") as f:
-        data_lines = f.read()
+        annotation = f.read()
 
-    data_lines = data_lines.replace(".000000 ", " ")
+    # float -> int
+    annotation = annotation.replace(".000000 ", " ")
 
     with open(fileName, mode="w", encoding="cp932") as f:
-        f.write(data_lines)
+        f.write(annotation)
 
 print("finish!")
